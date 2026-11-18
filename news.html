@@ -1,461 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>news-image-20261117</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    width: 1024px;
-    height: 1024px;
-    background: #f4f1ea;
-    font-family: "Georgia", "Times New Roman", serif;
-    color: #1a1a1a;
-    overflow: hidden;
-    position: relative;
-  }
-  .page {
-    width: 1024px;
-    height: 1024px;
-    padding: 24px 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 12px solid #1a1a1a;
-    position: relative;
-    background: #fdfbf7;
-  }
-  /* Background subtle schematic map */
-  .bg-map {
-    position: absolute;
-    top: 150px;
-    right: 50px;
-    width: 400px;
-    height: 300px;
-    opacity: 0.04;
-    pointer-events: none;
-  }
-  
-  /* Masthead */
-  .masthead {
-    border-bottom: 3px double #1a1a1a;
-    padding-bottom: 6px;
-    text-align: center;
-  }
-  .masthead-top {
-    display: flex;
-    justify-content: space-between;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #555;
-    margin-bottom: 4px;
-  }
-  .paper-title {
-    font-family: "Georgia", serif;
-    font-size: 46px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #111;
-    line-height: 1;
-  }
-  .masthead-sub {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #444;
-    margin-top: 3px;
-    font-weight: 600;
-  }
-
-  /* Main Grid Layout */
-  .content-grid {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: 16px;
-    margin: 6px 0;
-  }
-
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .article-card {
-    border-bottom: 1px solid #dcd6ce;
-    padding-bottom: 10px;
-  }
-  .article-card:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  /* Lead Story */
-  .lead-story {
-    background: #111;
-    color: #fdfbf7;
-    padding: 16px 20px;
-    border-radius: 2px;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  .tag {
-    display: inline-block;
-    background: #c8102e;
-    color: #fff;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    padding: 2px 6px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .lead-title {
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 6px;
-    font-family: "Georgia", serif;
-  }
-  .lead-desc {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 11.5px;
-    line-height: 1.35;
-    color: #e5e5e5;
-    margin-bottom: 8px;
-  }
-  .lead-bullets {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 10.5px;
-    color: #d1d5db;
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    border-top: 1px solid #333;
-    padding-top: 6px;
-  }
-  .lead-bullets li::before {
-    content: "■ ";
-    color: #c8102e;
-    font-size: 9px;
-  }
-
-  /* Secondary Stories */
-  .story-tag {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #c8102e;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-  }
-  .story-title {
-    font-size: 14.5px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 3px;
-    color: #111;
-  }
-  .story-desc {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 10.5px;
-    line-height: 1.3;
-    color: #444;
-  }
-
-  /* SVG Visualizations / Icons container */
-  .viz-box {
-    background: #f4f0e6;
-    border: 1px solid #d4cebe;
-    padding: 8px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 6px;
-  }
-  .viz-label {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 10.5px;
-    font-weight: 700;
-    color: #333;
-    max-width: 170px;
-    line-height: 1.25;
-  }
-
-  /* The Day In Numbers Section */
-  .numbers-section {
-    background: #f4f0e6;
-    border: 1px solid #d4cebe;
-    padding: 8px 12px;
-  }
-  .numbers-header {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #c8102e;
-    margin-bottom: 6px;
-    text-align: center;
-  }
-  .numbers-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-  }
-  .stat-card {
-    background: #fdfbf7;
-    border: 1px solid #d4cebe;
-    padding: 6px 4px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .stat-card::after {
-    content: "";
-    display: block;
-    width: 16px;
-    height: 1.5px;
-    background: #c8102e;
-    margin: 3px auto 0 auto;
-  }
-  .stat-figure {
-    font-family: "Georgia", serif;
-    font-size: 19px;
-    font-weight: 700;
-    color: #111;
-    line-height: 1.1;
-    margin-bottom: 2px;
-  }
-  .stat-label {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 8.5px;
-    font-weight: 600;
-    color: #444;
-    line-height: 1.15;
-    text-transform: uppercase;
-    letter-spacing: 0.2px;
-  }
-
-  /* Footer Strip */
-  .footer-strip {
-    border-top: 2px solid #111;
-    border-bottom: 1px solid #111;
-    padding: 8px 0 10px 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    background: #f4f0e6;
-  }
-  .footer-col {
-    padding: 0 8px;
-    border-right: 1px solid #d4cebe;
-  }
-  .footer-col:last-child {
-    border-right: none;
-  }
-  .footer-tag {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 9px;
-    font-weight: 800;
-    color: #c8102e;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-  }
-  .footer-title {
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 2px;
-    color: #111;
-  }
-  .footer-desc {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 9.5px;
-    color: #555;
-    line-height: 1.25;
-  }
-
-  /* Bottom bar */
-  .bottom-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 9px;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding-top: 2px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <style>
+        body { margin: 0; background: #0A192F; color: white; width: 1024px; height: 1024px; overflow: hidden; display: flex; flex-direction: column; font-family: sans-serif; }
+        .masthead { height: 96px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #F5A524; font-weight: bold; border-bottom: 2px solid white; }
+        .grid-container { flex-grow: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 16px; padding: 16px; }
+        .panel { background: #0A192F; border: 1px solid white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px; overflow: hidden; }
+        .svg-wrapper { width: 300px; height: 220px; }
+        h2 { font-size: 30px; margin: 5px 0; text-align: center; color: #F5A524; }
+        p { font-size: 20px; margin: 2px 0; text-align: center; }
+    </style>
 </head>
 <body>
-<div class="page">
-  <!-- Subtle background world/Europe schematic SVG -->
-  <svg class="bg-map" viewBox="0 0 400 300" fill="none" stroke="#111" stroke-width="1.5">
-    <path d="M50,150 Q100,80 180,100 T320,120 Q360,180 300,220 T150,250 Q80,220 50,150 Z" stroke-dasharray="4 4" />
-    <circle cx="180" cy="100" r="4" fill="#111"/>
-    <circle cx="260" cy="140" r="4" fill="#111"/>
-    <circle cx="210" cy="180" r="4" fill="#111"/>
-    <path d="M180,100 L260,140 L210,180 Z" stroke="#c8102e" stroke-width="2"/>
-  </svg>
-
-  <!-- Masthead -->
-  <header class="masthead">
-    <div class="masthead-top">
-      <span>Global Edition • Issue No. 20,2611</span>
-      <span>Tuesday, 17 November 2026</span>
-      <span>Price: Two Hundred Fifty USD</span>
-    </div>
-    <div class="paper-title">The Global Chronicle</div>
-    <div class="masthead-sub">The Day's Definitive World News Summary &amp; Editorial Analysis</div>
-  </header>
-
-  <!-- Main Content Grid -->
-  <div class="content-grid">
-    <!-- Left Column: Ukraine (Dominant) & US-Asia -->
-    <div class="col">
-      <!-- Ukraine Lead Story -->
-      <div class="lead-story">
-        <span class="tag">Breaking Conflict • Ukraine Escalation</span>
-        <div class="lead-title">Kerch Bridge Severely Damaged; Kyiv Bridges Struck Amid Massive Escalation</div>
-        <div class="lead-desc">
-          Occupied Crimea's vital Kerch bridge rendered "no longer usable" following a precision Ukrainian strike. Simultaneously, Russian missile barrages hit two Dnipro bridges in Kyiv, causing widespread water and power outages.
+    <div class="masthead">17 NOVEMBER 2026</div>
+    <div class="grid-container">
+        <!-- Ukraine -->
+        <div class="panel">
+            <div class="svg-wrapper"><svg viewBox="0 0 300 220"><rect x="20" y="100" width="120" height="20" rx="5" fill="#F5A524"/><rect x="160" y="100" width="120" height="20" rx="5" fill="#F5A524"/><polygon points="40,100 20,60 80,60" fill="gray"/><polygon points="200,100 180,60 240,60" fill="gray"/><line x1="0" y1="180" x2="300" y2="180" stroke="white" stroke-width="2"/><path d="M20,190 l10,-10 l10,10 M60,190 l10,-10 l10,10" stroke="white" fill="none"/></svg></div>
+            <h2>KERCH BRIDGE DOWN</h2>
+            <p>Kyiv strikes it; Russia hits back</p>
         </div>
-        <ul class="lead-bullets">
-          <li>Russia reports 1,400+ Ukrainian drones downed overnight across multiple sectors.</li>
-          <li>President Zelenskyy urgently appeals to Western allies for immediate air defence deployment.</li>
-          <li>President Trump declares the Russia-Ukraine war is "very close" to diplomatic resolution.</li>
-        </ul>
-        <div class="viz-box" style="background: #1e1e1e; border-color: #333; margin-top: 8px;">
-          <div class="viz-label" style="color: #fdfbf7;">Kerch Bridge Span Collapse &amp; Air Defense Shield Active</div>
-          <!-- Inline SVG: Cleaner Minimal Broken Bridge & Shield with Check -->
-          <svg width="170" height="42" viewBox="0 0 180 46" fill="none" stroke="#fff" stroke-width="2">
-            <!-- Left abutment and deck -->
-            <path d="M10,26 L45,26" stroke-width="3"/>
-            <path d="M20,26 L20,40 M35,26 L35,40" stroke-width="2" stroke="#aaa"/>
-            <!-- Falling span segment -->
-            <path d="M47,28 L65,38" stroke="#c8102e" stroke-width="3" stroke-linecap="round"/>
-            <!-- Dashed gap -->
-            <path d="M68,26 L85,26" stroke-dasharray="3 3" stroke-width="2" stroke="#777"/>
-            <!-- Right abutment and deck -->
-            <path d="M88,26 L125,26" stroke-width="3"/>
-            <path d="M100,26 L100,40 M115,26 L115,40" stroke-width="2" stroke="#aaa"/>
-            
-            <!-- Shield with checkmark beside it -->
-            <g transform="translate(142, 4)">
-              <path d="M12,2 Q18,0 24,2 Q24,14 12,22 Q0,14 0,2 Q6,0 12,2 Z" fill="#c8102e" opacity="0.3" stroke="#c8102e" stroke-width="2"/>
-              <path d="M7,11 L10,14 L17,7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-          </svg>
+        <!-- USA/Asia -->
+        <div class="panel">
+            <div class="svg-wrapper"><svg viewBox="0 0 300 220"><polygon points="50,50 150,50 170,30 170,70" fill="#F5A524"/><path d="M170,50 Q200,100 250,150" stroke="white" stroke-dasharray="4" fill="none"/><rect x="230" y="150" width="40" height="40" fill="white"/><rect x="270" y="100" width="5" height="50" fill="white"/><rect x="225" y="100" width="5" height="50" fill="white"/></svg></div>
+            <h2>TRUMP FLIES TO ASIA</h2>
+            <p>Manila first, Xi summit next</p>
         </div>
-      </div>
-
-      <!-- USA-Asia Story -->
-      <div class="article-card">
-        <div class="story-tag">Diplomacy • USA &amp; Asia</div>
-        <div class="story-title">Trump Opens 48-Hour Asia Trip in Manila Ahead of Xi Summit</div>
-        <div class="story-desc">
-          President Trump touched down in Manila for a high-stakes 48-hour visit preceding the summit with President Xi. White House advisers remain sharply divided over future US-China trade and security strategy.
+        <!-- Iran/Washington -->
+        <div class="panel">
+            <div class="svg-wrapper"><svg viewBox="0 0 300 220"><circle cx="150" cy="50" r="30" fill="none" stroke="#F5A524" stroke-width="5"/><path d="M150,20 L150,50 L120,70 Z M150,50 L180,70 L150,90 Z M150,50 L120,30 Z" fill="#F5A524"/><rect x="100" y="120" width="100" height="80" rx="10" fill="white"/><circle cx="150" cy="120" r="40" fill="white"/></svg></div>
+            <h2>DIRTY-BOMB PLOT</h2>
+            <p>US weighs reported Iran plan</p>
         </div>
-      </div>
-    </div>
-
-    <!-- Right Column: Iran & NSA -->
-    <div class="col">
-      <!-- Iran Story -->
-      <div class="article-card">
-        <div class="story-tag">National Security • Iran Threat</div>
-        <div class="story-title">US Takes Reported Iranian Dirty-Bomb Plot Against Washington "Very Seriously"</div>
-        <div class="story-desc">
-          US intelligence agencies have elevated threat assessments following credible disclosures of an alleged Iranian plot targeting Washington D.C. with radiological materials.
+        <!-- Climate -->
+        <div class="panel">
+            <div class="svg-wrapper"><svg viewBox="0 0 300 220"><circle cx="150" cy="110" r="80" fill="none" stroke="#F5A524" stroke-width="4"/><path d="M70,110 Q150,50 230,110 M70,110 Q150,170 230,110" stroke="white" stroke-width="2" fill="none"/><path d="M200,150 C250,150 250,200 200,200" fill="green"/><circle cx="100" cy="80" r="5" fill="red"/><circle cx="150" cy="50" r="5" fill="red"/><circle cx="200" cy="80" r="5" fill="red"/></svg></div>
+            <h2>CLIMATE SUMMIT</h2>
+            <p>UN delegates open talks</p>
         </div>
-        <div class="viz-box">
-          <div class="viz-label">Radiological Threat Vector Monitored by US Agencies</div>
-          <!-- Inline SVG: Radiation Trefoil -->
-          <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
-            <circle cx="25" cy="25" r="23" stroke="#111" stroke-width="2" fill="#e5ded0"/>
-            <circle cx="25" cy="25" r="4" fill="#c8102e"/>
-            <path d="M25,25 L15,10 A12,12 0 0,1 35,10 Z" fill="#c8102e"/>
-            <path d="M25,25 L37,33 A12,12 0 0,1 27,45 Z" fill="#c8102e"/>
-            <path d="M25,25 L13,33 A12,12 0 0,1 15,9 Z" fill="#c8102e"/>
-          </svg>
+        <!-- NSA/Cyber -->
+        <div class="panel">
+            <div class="svg-wrapper"><svg viewBox="0 0 300 220"><g fill="white"><circle cx="50" cy="50" r="10"/><circle cx="100" cy="50" r="10"/><circle cx="150" cy="50" r="10"/><circle cx="200" cy="50" r="10"/><circle cx="50" cy="150" r="10"/><circle cx="100" cy="150" r="10"/><circle cx="150" cy="150" r="10"/><circle cx="200" cy="150" r="10" fill="#F5A524"/></g><line x1="50" y1="50" x2="100" y2="50" stroke="white"/><line x1="100" y1="50" x2="150" y2="50" stroke="white"/><line x1="150" y1="50" x2="200" y2="50" stroke="white" stroke-dasharray="4" stroke="gray"/><line x1="50" y1="150" x2="100" y2="150" stroke="white"/><line x1="100" y1="150" x2="150" y2="150" stroke="white"/><line x1="150" y1="150" x2="200" y2="150" stroke="white"/></svg></div>
+            <h2>SECRET NETWORK DARK</h2>
+            <p>Classified comms outage</p>
         </div>
-      </div>
-
-      <!-- NSA Outage -->
-      <div class="article-card">
-        <div class="story-tag">Cyber Intelligence • Infrastructure</div>
-        <div class="story-title">Classified US National-Security Comms Network Suffers Unprecedented Outage</div>
-        <div class="story-desc">
-          A highly sensitive communications backbone utilized by US national-security agencies went offline unexpectedly, prompting emergency cryptographic isolation and cyber-investigations.
+        <!-- Migration -->
+        <div class="panel">
+            <div class="svg-wrapper"><svg viewBox="0 0 300 220"><polygon points="100,50 150,50 160,100 140,150 100,150" fill="white"/><path d="M160,100 Q200,50 250,100" stroke="#F5A524" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="230" y="150" width="30" height="30" fill="white"/><rect x="200" y="180" width="20" height="20" fill="red"/><rect x="220" y="180" width="20" height="20" fill="blue"/></svg></svg></div>
+            <h2>MIGRATION CRISIS</h2>
+            <p>New routes, border tensions</p>
         </div>
-      </div>
     </div>
-  </div>
-
-  <!-- The Day In Numbers Section -->
-  <div class="numbers-section">
-    <div class="numbers-header">THE DAY IN NUMBERS</div>
-    <div class="numbers-row">
-      <div class="stat-card">
-        <div class="stat-figure">1,400+</div>
-        <div class="stat-label">Drones Downed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-figure">2</div>
-        <div class="stat-label">Bridges in Kyiv</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-figure">48h</div>
-        <div class="stat-label">Asia Trip</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-figure">$50M</div>
-        <div class="stat-label">Antalya Talks</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-figure">2</div>
-        <div class="stat-label">Nuclear Summits</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer Strip: Climate, Migration & Intelligence -->
-  <div class="footer-strip">
-    <div class="footer-col">
-      <div class="footer-tag">Global Climate • Antalya</div>
-      <div class="footer-title">UN Climate Summit Underway in Turkey</div>
-      <div class="footer-desc">Delegates converge in Antalya for urgent climate finance negotiations.</div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-tag">Migration Policy • Vienna</div>
-      <div class="footer-title">Rwanda Return-Hub Deal Negotiated</div>
-      <div class="footer-desc">Vienna conference evaluates return hubs and UK-EU mobility frameworks.</div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-tag">Global Intelligence • Dispatch</div>
-      <div class="footer-title">Escalation Flashpoints Map Updated</div>
-      <div class="footer-desc">Simultaneous crises across Eastern Europe and Asia strain diplomatic channels.</div>
-    </div>
-  </div>
-
-  <!-- Bottom Bar -->
-  <div class="bottom-bar">
-    <span>Make.fun Bounty Entry: news-image-20261117</span>
-    <span>Editorial Visual Summary • 1024x1024 Edition</span>
-    <span>All Factual • No Copyrighted Assets</span>
-  </div>
-</div>
 </body>
 </html>
